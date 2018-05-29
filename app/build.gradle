@@ -1,0 +1,52 @@
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.firebase-perf'
+
+android {
+    compileSdkVersion project.ext.CompileSdkVersion
+
+    defaultConfig {
+        minSdkVersion project.ext.MinSdkVersion
+        targetSdkVersion project.ext.TargetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+        }
+    }
+}
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://maven.fabric.io/public' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'io.fabric.tools:gradle:1.25.3'
+        classpath 'com.google.firebase:firebase-plugins:1.1.5'
+    }
+}
+
+dependencies {
+    implementation project(':stanwoodanalytics')
+    debugImplementation project(':fabrictrackingprovider-noop')
+    releaseImplementation project(':fabrictrackingprovider')
+    debugImplementation project(':testfairytrackingprovider')
+    releaseImplementation project(':testfairytrackingprovider-noop')
+    debugImplementation project(':firebasetrackingprovider-noop')
+    releaseImplementation project(':firebasetrackingprovider')
+    debugImplementation project(':gatrackingprovider-noop')
+    releaseImplementation project(':gatrackingprovider')
+    debugImplementation project(':mixpaneltrackingprovider-noop')
+    releaseImplementation project(':mixpaneltrackingprovider')
+    debugImplementation project(':adjusttrackingprovider-noop')
+    releaseImplementation project(':adjusttrackingprovider')
+    implementation "com.android.support:appcompat-v7:$rootProject.ext.SupportLibVersion"
+    implementation "com.google.firebase:firebase-perf:$rootProject.ext.FirebaseVersion"
+}

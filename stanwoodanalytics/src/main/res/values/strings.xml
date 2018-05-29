@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="opt_out_info">Please note, that some services need you to restart the app from the multitasking menu for the tracking to stop entirely.</string>
+</resources>

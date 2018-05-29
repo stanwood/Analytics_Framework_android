@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="opt_out_info">Bitte beachten Sie, dass Sie die App aus dem Multi-Tasking-Menü komplett beenden müssen, bevor das Tracking aller Dienste vollständig abgeschaltet ist</string>
+</resources>

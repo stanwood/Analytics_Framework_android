@@ -1,0 +1,46 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+group = 'com.github.stanwood.Analytics_Framework_android'
+version = project.ext.FrameworkVersion
+android {
+    compileSdkVersion project.ext.CompileSdkVersion
+
+    defaultConfig {
+        minSdkVersion project.ext.MinSdkVersion
+        targetSdkVersion project.ext.TargetSdkVersion
+        versionCode 1
+        versionName project.ext.FrameworkVersion
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+}
+
+dependencies {
+    implementation project(':core')
+    implementation "com.android.support:support-annotations:$rootProject.ext.SupportLibVersion"
+    api 'com.mixpanel.android:mixpanel-android:5.4.0'
+    api project(':mixpaneltrackingprovider-shared')
+}
+
+// build a jar with source files
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    failOnError  false
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+}
+
+// build a jar with javadoc
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
