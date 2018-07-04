@@ -45,7 +45,7 @@ public class DebugViewTrackerImpl extends DebugViewTracker {
         }
         if (params.getCustomPropertys() != null && !params.getCustomPropertys().isEmpty()) {
             for (Map.Entry<String, Object> entry : params.getCustomPropertys().entrySet()) {
-                sb.append(entry.getKey()).append("|").append(entry.getValue().toString()).append("|");
+                sb.append(entry.getKey()).append("|").append(entry.getValue() != null ? entry.getValue().toString() : "").append("|");
             }
         }
         sb.setLength(sb.length() - 1);
