@@ -16,8 +16,8 @@ android {
 dependencies {
     implementation project(':core')
     implementation "com.android.support:support-annotations:$rootProject.ext.SupportLibVersion"
-    implementation "com.google.firebase:firebase-core:$rootProject.ext.FirebaseVersion"
-    implementation "com.google.firebase:firebase-crash:$rootProject.ext.FirebaseVersion"
+    implementation "com.google.firebase:firebase-core:$rootProject.ext.FirebaseCoreVersion"
+    implementation "com.google.firebase:firebase-crash:$rootProject.ext.FirebaseCrashVersion"
     api project(':firebasetrackingprovider-shared')
 }
 
