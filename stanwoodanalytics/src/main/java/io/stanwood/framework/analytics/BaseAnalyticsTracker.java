@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 
 import java.util.Map;
@@ -26,6 +27,9 @@ import timber.log.Timber;
 public class BaseAnalyticsTracker implements AnalyticsTracker, TrackerContainer.TrackerMigrationCallback {
     private final TrackerContainer trackerContainer;
 
+    @Nullable
+    private OptOutDialogFactory dialogFactory = null;
+
     protected BaseAnalyticsTracker(@NonNull Context context, @NonNull FabricTracker fabricTracker, @NonNull FirebaseTracker firebaseTracker,
                                    @NonNull TestfairyTracker testfairyTracker, @Nullable Tracker... optional) {
         TrackerContainer.Builder builder = TrackerContainer.builder(context)
@@ -37,7 +41,6 @@ public class BaseAnalyticsTracker implements AnalyticsTracker, TrackerContainer.
         trackerContainer = builder.build();
         Timber.plant(new TrackerTree(trackerContainer));
     }
-
 
     /**
      * Override to set the enabled state of a tracker for the first time
@@ -85,6 +88,15 @@ public class BaseAnalyticsTracker implements AnalyticsTracker, TrackerContainer.
         enableImpl(null, enable, trackerNames);
     }
 
+    public void setOptOutDialogFactory(@Nullable OptOutDialogFactory factory) {
+        dialogFactory = factory;
+    }
+
+    @NonNull
+    private OptOutDialogFactory getOptOutDialogFactory() {
+        return dialogFactory == null? new DefaultOptOutDialogFactory() : dialogFactory;
+    }
+
     private void enableImpl(@Nullable FragmentActivity context, boolean enable, @Nullable String... trackerNames) {
         if (!enable) {
             trackEvent(TrackerParams.builder("tracking_opt_out").build());
@@ -93,7 +105,8 @@ public class BaseAnalyticsTracker implements AnalyticsTracker, TrackerContainer.
         if (enable) {
             trackEvent(TrackerParams.builder("tracking_opt_in").build());
         } else if (context != null) {
-            new OptOutDialog().show(context.getSupportFragmentManager(), "analytics_opt_out");
+            DialogFragment dialog = getOptOutDialogFactory().createDialog();
+            dialog.show(context.getSupportFragmentManager(), "analytics_opt_out");
         }
     }
 
