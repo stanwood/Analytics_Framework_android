@@ -1,4 +1,5 @@
 [![Release](https://jitpack.io/v/stanwood/Analytics_Framework_android.svg?style=flat-square)](https://jitpack.io/#stanwood/Analytics_Framework_android)
+[![API](https://img.shields.io/badge/API-16%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=16)
 
 # Analytics Framework (Android)
 
