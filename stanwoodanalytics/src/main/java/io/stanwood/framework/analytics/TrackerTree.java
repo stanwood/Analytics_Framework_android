@@ -7,7 +7,7 @@ import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 
 import io.stanwood.framework.analytics.generic.TrackerContainer;
 import io.stanwood.framework.analytics.generic.TrackerParams;
@@ -44,9 +44,15 @@ class TrackerTree extends Timber.Tree {
 
     private String getMessage(Throwable throwable) {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
-        try (PrintStream printStream = new PrintStream(out)) {
+        PrintStream printStream = null;
+        try {
+            printStream = new PrintStream(out);
             throwable.printStackTrace(printStream);
-            return new String(out.toByteArray(), StandardCharsets.UTF_8);
+            return new String(out.toByteArray(), Charset.forName("UTF-8"));
+        } finally {
+            if (printStream != null) {
+                printStream.close();
+            }
         }
     }
 }
