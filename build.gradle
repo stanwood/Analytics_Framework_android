@@ -23,11 +23,10 @@ allprojects {
         TargetSdkVersion = 27
         CompileSdkVersion = 27
         SupportLibVersion = '27.1.1'
-        FirebasePerfVersion = '11.8.0'
-        FirebaseCoreVersion = '16.0.1'
-        FirebaseCrashVersion = '16.0.1'
-        FirebasePerfVersion = '16.0.0'
-        PlayServicesAnalyticsVersion = '16.0.1'
+        FirebaseCoreVersion = '16.0.3'
+        FirebaseCrashVersion = '16.2.0'
+        FirebasePerfVersion = '16.1.0'
+        PlayServicesAnalyticsVersion = '16.0.3'
         FrameworkVersion = '1.1.12'
     }
 }
