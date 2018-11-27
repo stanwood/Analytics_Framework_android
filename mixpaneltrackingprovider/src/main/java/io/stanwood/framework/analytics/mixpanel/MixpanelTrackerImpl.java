@@ -42,7 +42,7 @@ public class MixpanelTrackerImpl extends MixpanelTracker {
         TrackerParams mapped = mapFunc.map(params);
         if (mapped != null) {
             JSONObject props = mapped.getCustomPropertys() != null ? new JSONObject(mapped.getCustomPropertys()) : null;
-            mixpanelAPI.track(params.getEventName(), props);
+            mixpanelAPI.track(mapped.getEventName(), props);
         }
         Map<String, Object> mappedKeys = mapFunc.mapKeys(params);
         if (mappedKeys != null) {
