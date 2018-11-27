@@ -89,7 +89,7 @@ public class SimpleAppTracker extends BaseAnalyticsTracker {
             instance = new SimpleAppTracker(application, FabricTrackerImpl.builder(application).build(),
                     FirebaseTrackerImpl.builder(application).setExceptionTrackingEnabled(true).build(),
                     TestfairyTrackerImpl.builder(application, "KEY").build());
-            FirebasePerformance.getInstance().setPerformanceCollectionEnabled(!BuildConfig.DEBUG);
+            FirebasePerformance.getInstance().setPerformanceCollectionEnabled(!BuildConfig.DEBUG && instance.hasEnabledTracker());
             if (BuildConfig.DEBUG) {
                 Timber.plant(new Timber.DebugTree());
             }
@@ -254,7 +254,7 @@ To disable auto-intialisation of Firebase Performance at app start (e.g. because
 Later on you can enable it with
 
 ```java
-FirebasePerformance.getInstance().setPerformanceCollectionEnabled(true);
+FirebasePerformance.getInstance().setPerformanceCollectionEnabled(true); // see complete sample above
 ```
 
 as outlined in the example above.

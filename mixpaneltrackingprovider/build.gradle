@@ -17,7 +17,7 @@ android {
 dependencies {
     implementation project(':core')
     implementation "com.android.support:support-annotations:$rootProject.ext.SupportLibVersion"
-    api 'com.mixpanel.android:mixpanel-android:5.4.0'
+    api 'com.mixpanel.android:mixpanel-android:5.4.4'
     api project(':mixpaneltrackingprovider-shared')
 }
 
