@@ -66,12 +66,11 @@ public class AdvancedAppTracker extends BaseAnalyticsTracker {
             Tracker mixpanelTracker = MixpanelTrackerImpl.builder(application, "KEY")
                     .mapFunction(new io.stanwood.framework.analytics.mixpanel.DefaultMapFunction() {
                         @Override
-                        public Map<String, String> map(TrackerParams params) {
-                            Map<String, String> mapped = new HashMap<>(3);
-                            mapped.put("category", params.getCategory());
-                            mapped.put("action", params.getName());
-                            mapped.put("label", params.getItemId());
-                            return mapped;
+                        public TrackerParams map(TrackerParams params) {
+                            return TrackerParams.builder(params.getEventName())
+                                    .addCustomProperty("category", params.getCategory())
+                                    .addCustomProperty("action", params.getName())
+                                    .addCustomProperty("label", params.getItemId()).build();
                         }
                     })
                     .build();

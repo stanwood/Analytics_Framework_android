@@ -39,9 +39,9 @@ public class MixpanelTrackerImpl extends MixpanelTracker {
 
     @Override
     public void track(@NonNull TrackerParams params) {
-        Map<String, String> mapped = mapFunc.map(params);
-        if (mapped != null && !mapped.isEmpty()) {
-            JSONObject props = new JSONObject(mapped);
+        TrackerParams mapped = mapFunc.map(params);
+        if (mapped != null) {
+            JSONObject props = mapped.getCustomPropertys() != null ? new JSONObject(mapped.getCustomPropertys()) : null;
             mixpanelAPI.track(params.getEventName(), props);
         }
         Map<String, Object> mappedKeys = mapFunc.mapKeys(params);
@@ -52,7 +52,9 @@ public class MixpanelTrackerImpl extends MixpanelTracker {
                 if (key.equalsIgnoreCase(TrackingKey.USER_EMAIL)) {
                     p.set("$email", entry.getValue());
                 } else if (key.equalsIgnoreCase(TrackingKey.USER_ID)) {
-                    p.identify((String) entry.getValue());
+                    String userId = (String) entry.getValue();
+                    p.identify(userId);
+                    mixpanelAPI.identify(userId);
                     if (!TextUtils.isEmpty(senderId)) {
                         p.initPushHandling(senderId);
                     }
