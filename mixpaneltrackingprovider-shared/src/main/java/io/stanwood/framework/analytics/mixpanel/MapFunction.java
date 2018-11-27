@@ -9,7 +9,7 @@ import io.stanwood.framework.analytics.generic.TrackerParams;
 
 public interface MapFunction {
     @Nullable
-    Map<String, String> map(TrackerParams params);
+    TrackerParams map(TrackerParams params);
 
     @Nullable
     Map<String, Object> mapKeys(TrackerParams params);
