@@ -7,7 +7,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0-rc01'
+        classpath 'com.android.tools.build:gradle:3.3.0-rc02'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
@@ -23,10 +23,10 @@ allprojects {
         TargetSdkVersion = 28
         CompileSdkVersion = 28
         SupportLibVersion = '28.0.0'
-        FirebaseCoreVersion = '16.0.4'
+        FirebaseCoreVersion = '16.0.6'
         FirebaseCrashVersion = '16.2.1'
-        FirebasePerfVersion = '16.1.2'
-        PlayServicesAnalyticsVersion = '16.0.4'
+        FirebasePerfVersion = '16.2.2'
+        PlayServicesAnalyticsVersion = '16.0.6'
         FrameworkVersion = '1.4.1'
     }
 }
