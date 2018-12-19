@@ -26,7 +26,7 @@ allprojects {
         FirebaseCoreVersion = '16.0.4'
         FirebaseCrashVersion = '16.2.1'
         FirebasePerfVersion = '16.1.2'
-        PlayServicesAnalyticsVersion = '16.0.4'
+        PlayServicesAnalyticsVersion = '16.0.6'
         FrameworkVersion = '1.4.1'
     }
 }
