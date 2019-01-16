@@ -23,16 +23,14 @@ import io.stanwood.framework.analytics.generic.Tracker;
 import io.stanwood.framework.analytics.generic.TrackerParams;
 import io.stanwood.framework.analytics.generic.TrackingEvent;
 import io.stanwood.framework.analytics.mixpanel.MixpanelTrackerImpl;
-import io.stanwood.framework.analytics.testfairy.TestfairyTracker;
-import io.stanwood.framework.analytics.testfairy.TestfairyTrackerImpl;
 import timber.log.Timber;
 
 public class AdvancedAppTracker extends BaseAnalyticsTracker {
     private static AdvancedAppTracker instance;
 
     private AdvancedAppTracker(@NonNull Context context, @NonNull FabricTracker fabricTracker, @NonNull FirebaseTracker firebaseTracker,
-                               @NonNull TestfairyTracker testfairyTracker, @Nullable Tracker... optional) {
-        super(context, fabricTracker, firebaseTracker, testfairyTracker, optional);
+                               @Nullable Tracker... optional) {
+        super(context, fabricTracker, firebaseTracker, optional);
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
@@ -78,8 +76,7 @@ public class AdvancedAppTracker extends BaseAnalyticsTracker {
                     .setExceptionTrackingEnabled(true)
                     .build();
             FabricTrackerImpl fabricTracker = FabricTrackerImpl.builder(application).build();
-            TestfairyTracker testfairyTracker = TestfairyTrackerImpl.builder(application, "KEY").build();
-            instance = new AdvancedAppTracker(application, fabricTracker, firebaseTracker, testfairyTracker, mixpanelTracker, adjustTracker, gaTracker);
+            instance = new AdvancedAppTracker(application, fabricTracker, firebaseTracker, mixpanelTracker, adjustTracker, gaTracker);
             FirebasePerformance.getInstance().setPerformanceCollectionEnabled(!BuildConfig.DEBUG);
         }
     }

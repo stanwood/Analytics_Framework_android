@@ -18,7 +18,6 @@ import io.stanwood.framework.analytics.generic.TrackerContainer;
 import io.stanwood.framework.analytics.generic.TrackerParams;
 import io.stanwood.framework.analytics.generic.TrackingEvent;
 import io.stanwood.framework.analytics.generic.TrackingKey;
-import io.stanwood.framework.analytics.testfairy.TestfairyTracker;
 import timber.log.Timber;
 
 /**
@@ -31,9 +30,9 @@ public class BaseAnalyticsTracker implements AnalyticsTracker, TrackerContainer.
     private OptOutDialogFactory dialogFactory = null;
 
     protected BaseAnalyticsTracker(@NonNull Context context, @NonNull FabricTracker fabricTracker, @NonNull FirebaseTracker firebaseTracker,
-                                   @NonNull TestfairyTracker testfairyTracker, @Nullable Tracker... optional) {
+                                   @Nullable Tracker... optional) {
         TrackerContainer.Builder builder = TrackerContainer.builder(context)
-                .addTracker(fabricTracker, firebaseTracker, testfairyTracker)
+                .addTracker(fabricTracker, firebaseTracker)
                 .setMigrationCallback(this);
         if (optional != null) {
             builder.addTracker(optional);
@@ -94,7 +93,7 @@ public class BaseAnalyticsTracker implements AnalyticsTracker, TrackerContainer.
 
     @NonNull
     private OptOutDialogFactory getOptOutDialogFactory() {
-        return dialogFactory == null? new DefaultOptOutDialogFactory() : dialogFactory;
+        return dialogFactory == null ? new DefaultOptOutDialogFactory() : dialogFactory;
     }
 
     private void enableImpl(@Nullable FragmentActivity context, boolean enable, @Nullable String... trackerNames) {
