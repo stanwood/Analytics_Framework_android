@@ -37,10 +37,6 @@ dependencies {
     debugImplementation "com.github.stanwood.Analytics_Framework_android:firebasetrackingprovider-noop:$analytics_version"
     releaseImplementation "com.github.stanwood.Analytics_Framework_android:firebasetrackingprovider:$analytics_version"
 
-    // Testfairy tracker
-    debugImplementation 'com.github.stanwood.Analytics_Framework_android:testfairytrackingprovider:$latest_version'
-    releaseImplementation 'com.github.stanwood.Analytics_Framework_android:testfairytrackingprovider-noop:$latest_version'
-
     // Google Analytics tracker - optional
     debugImplementation 'com.github.stanwood.Analytics_Framework_android:gatrackingprovider-noop:$latest_version'
     releaseImplementation 'com.github.stanwood.Analytics_Framework_android:gatrackingprovider:$latest_version'
@@ -80,15 +76,14 @@ public class SimpleAppTracker extends BaseAnalyticsTracker {
     private static SimpleAppTracker instance;
 
     private SimpleAppTracker(@NonNull Context context, @NonNull FabricTracker fabricTracker, @NonNull FirebaseTracker firebaseTracker,
-                             @NonNull TestfairyTracker testfairyTracker, @Nullable Tracker... optional) {
-        super(context, fabricTracker, firebaseTracker, testfairyTracker, optional);
+                             @Nullable Tracker... optional) {
+        super(context, fabricTracker, firebaseTracker, optional);
     }
 
     public static synchronized void init(Application application) {
         if (instance == null) {
             instance = new SimpleAppTracker(application, FabricTrackerImpl.builder(application).build(),
-                    FirebaseTrackerImpl.builder(application).setExceptionTrackingEnabled(true).build(),
-                    TestfairyTrackerImpl.builder(application, "KEY").build());
+                    FirebaseTrackerImpl.builder(application).setExceptionTrackingEnabled(true).build());
             FirebasePerformance.getInstance().setPerformanceCollectionEnabled(!BuildConfig.DEBUG && instance.hasEnabledTracker());
             if (BuildConfig.DEBUG) {
                 Timber.plant(new Timber.DebugTree());
@@ -205,8 +200,8 @@ Use this to e.g disable tracking in debug or qa builds.
 You could configure the dependency in your app's `build.gradle` like so:
 
 ```groovy
-debugImplementation 'com.github.stanwood.Analytics_Framework_android:testfairytrackingprovider:$latest_version'
-releaseImplementation 'com.github.stanwood.Analytics_Framework_android:testfairytrackingprovider-noop:$latest_version'
+debugImplementation 'com.github.stanwood.Analytics_Framework_android:fabrictrackingprovider:$latest_version'
+releaseImplementation 'com.github.stanwood.Analytics_Framework_android:fabrictrackingprovider-noop:$latest_version'
 ```
 
 #### Migration from other tracker frameworks
@@ -215,25 +210,6 @@ The first time a tracker gets initialized `migrateTrackerState(trackerName)` get
 
 
 ## Tracker specific documentation
-
-### Testfairy
-
-#### okhttp interceptor
-
-The Testfairy module also contains an okhttp `Interceptor` called `TestfairyHttpInterceptor`.
-
-This interceptor is needed to log calls to testfairy and is purely optional.
-
-Add it to your okhttp client as an _app interceptor_:
-
-```java
-OkHttpClient client = new OkHttpClient.Builder()
-    .addInterceptor(new TestfairyHttpInterceptor())
-    .build();
-```
-
-You can also use this without modification in release builds, just make sure to use the _noop_ module for these builds instead of the regular one. The _noop_ version doesn't execute any own code and thus doesn't track network calls to Testfairy.
-
 
 ### Firebase Crashlytics (for future reference, currently this library only offers plain old Fabric)
 
