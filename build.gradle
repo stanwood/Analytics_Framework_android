@@ -24,7 +24,6 @@ allprojects {
         CompileSdkVersion = 28
         SupportLibVersion = '28.0.0'
         FirebaseCoreVersion = '16.0.7'
-        FirebaseCrashVersion = '16.2.1'
         FirebasePerfVersion = '16.2.2'
         PlayServicesAnalyticsVersion = '16.0.7'
         FrameworkVersion = '1.4.1'

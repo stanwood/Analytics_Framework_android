@@ -26,7 +26,7 @@ public class SimpleAppTracker extends BaseAnalyticsTracker {
     public static synchronized void init(Application application) {
         if (instance == null) {
             instance = new SimpleAppTracker(application, FabricTrackerImpl.builder(application).build(),
-                    FirebaseTrackerImpl.builder(application).setExceptionTrackingEnabled(true).build());
+                    FirebaseTrackerImpl.builder(application).build());
             FirebasePerformance.getInstance().setPerformanceCollectionEnabled(!BuildConfig.DEBUG);
             if (BuildConfig.DEBUG) {
                 Timber.plant(new Timber.DebugTree());
