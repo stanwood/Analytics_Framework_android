@@ -39,7 +39,6 @@ public class AdvancedAppTracker extends BaseAnalyticsTracker {
     public static synchronized void init(Application application) {
         if (instance == null) {
             FirebaseTracker firebaseTracker = FirebaseTrackerImpl.builder(application)
-                    .setExceptionTrackingEnabled(true)
                     .mapFunction(new DefaultMapFunction() {
                         @Override
                         public Bundle map(TrackerParams params) {

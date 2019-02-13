@@ -48,6 +48,9 @@ public class AdjustTrackerImpl extends AdjustTracker {
             AdjustConfig config = new AdjustConfig(context, appKey, environment);
             Adjust.onCreate(config);
         } else if (isInited) {
+            if (!enabled) {
+                Adjust.gdprForgetMe(context);
+            }
             Adjust.setEnabled(enabled);
         }
     }
