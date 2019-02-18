@@ -39,9 +39,8 @@ public abstract class FirebaseTracker extends Tracker {
     public static abstract class Builder extends Tracker.Builder<Builder> {
         protected MapFunction mapFunc = null;
 
-        Builder(Application context) {
+        protected Builder(Application context) {
             super(context);
-            this.exceptionTrackingEnabled = true;
         }
 
         @Override
@@ -49,18 +48,6 @@ public abstract class FirebaseTracker extends Tracker {
 
         public Builder mapFunction(MapFunction func) {
             this.mapFunc = func;
-            return this;
-        }
-
-
-        /**
-         * Enables exception tracking: sends handled exceptions to firebase
-         *
-         * @param enable enables exception tracking , default true
-         * @return the builder
-         */
-        public Builder setExceptionTrackingEnabled(boolean enable) {
-            this.exceptionTrackingEnabled = enable;
             return this;
         }
     }

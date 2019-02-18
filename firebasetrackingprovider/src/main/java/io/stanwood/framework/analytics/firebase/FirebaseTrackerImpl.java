@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresPermission;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.crash.FirebaseCrash;
 
 import java.util.Map;
 
@@ -36,7 +35,6 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
             this.firebaseAnalytics = FirebaseAnalytics.getInstance(context);
         }
         firebaseAnalytics.setAnalyticsCollectionEnabled(enabled);
-        FirebaseCrash.setCrashCollectionEnabled(enabled && exceptionTrackingEnabled);
     }
 
     @Override
@@ -60,15 +58,9 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
         }
     }
 
-    @Override
-    public void track(@NonNull Throwable throwable) {
-        FirebaseCrash.report(throwable);
-    }
-
     public static class Builder extends FirebaseTracker.Builder {
         Builder(Application context) {
             super(context);
-            this.exceptionTrackingEnabled = true;
         }
 
         @Override
