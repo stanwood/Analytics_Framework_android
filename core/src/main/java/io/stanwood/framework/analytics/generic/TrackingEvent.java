@@ -1,7 +1,7 @@
 package io.stanwood.framework.analytics.generic;
 
 public interface TrackingEvent {
-    String VIEW_ITEM = "view_item";
+    String SCREEN_VIEW = "screen_view";
     String PURCHASE = "ecommerce_purchase";
     String LOGIN = "login";
     String SELECT_CONTENT = "select_content";

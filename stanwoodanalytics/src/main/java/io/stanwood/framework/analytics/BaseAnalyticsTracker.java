@@ -155,7 +155,7 @@ public class BaseAnalyticsTracker implements AnalyticsTracker, TrackerContainer.
      * @param customProps custom property's
      */
     protected void trackScreenView(@NonNull String screenName, Map<String, Object> customProps) {
-        trackerContainer.trackEvent(TrackerParams.builder(TrackingEvent.VIEW_ITEM).setName(screenName).addCustomProperty(customProps).build());
+        trackerContainer.trackEvent(TrackerParams.builder(TrackingEvent.SCREEN_VIEW).setName(screenName).addCustomProperty(customProps).build());
     }
 
     /**

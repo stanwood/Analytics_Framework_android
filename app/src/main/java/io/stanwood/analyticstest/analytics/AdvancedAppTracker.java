@@ -2,7 +2,6 @@ package io.stanwood.analyticstest.analytics;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -49,7 +48,7 @@ public class AdvancedAppTracker extends BaseAnalyticsTracker {
                     .mapFunction(new io.stanwood.framework.analytics.adjust.DefaultMapFunction() {
                         @Override
                         public String mapContentToken(TrackerParams params) {
-                            if (params.getEventName().equals(TrackingEvent.VIEW_ITEM) && params.getName().equals("home")) {
+                            if (TrackingEvent.SCREEN_VIEW.equalsIgnoreCase(params.getEventName()) && params.getName().equals("home")) {
                                 return "ADJUST_CONTENT_ID";
                             }
                             return null;

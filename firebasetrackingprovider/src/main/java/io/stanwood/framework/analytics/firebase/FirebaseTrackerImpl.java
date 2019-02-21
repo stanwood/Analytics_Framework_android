@@ -52,7 +52,7 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
     public void track(@NonNull TrackerParams params) {
         TrackerParams mapped = mapFunc.map(params);
         if (mapped != null) {
-            if (mapped.getEventName().equalsIgnoreCase(TrackingEvent.VIEW_ITEM)) {
+            if (TrackingEvent.SCREEN_VIEW.equalsIgnoreCase(mapped.getEventName())) {
                 Activity activity = activityWeakReference.get();
                 if (activity != null) {
                     firebaseAnalytics.setCurrentScreen(activity, mapped.getName(), mapped.getCategory());
@@ -67,7 +67,7 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
                 if (entry.getValue() == null) {
                     continue;
                 }
-                if (entry.getKey().equalsIgnoreCase(TrackingKey.USER_ID)) {
+                if (TrackingKey.USER_ID.equalsIgnoreCase(entry.getKey())) {
                     firebaseAnalytics.setUserId(entry.getValue().toString());
                 } else {
                     firebaseAnalytics.setUserProperty(entry.getKey(), entry.getValue().toString());
@@ -92,7 +92,7 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
 
     private static Bundle toBundle(TrackerParams params) {
         Bundle bundle = new Bundle();
-        if (params.getEventName().equalsIgnoreCase(TrackingEvent.PURCHASE)) {
+        if (TrackingEvent.PURCHASE.equalsIgnoreCase(params.getEventName())) {
             bundle.putString(FirebaseAnalytics.Param.VALUE, params.getCustomPropertys().get(TrackingKey.PURCHASE_PRICE).toString());
             bundle.putString(FirebaseAnalytics.Param.TRANSACTION_ID, params.getCustomPropertys().get(TrackingKey.PURCHASE_ORDERID).toString());
             return bundle;
