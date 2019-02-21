@@ -11,7 +11,7 @@ public class DefaultMapFunction implements MapFunction {
     @Nullable
     @Override
     public TrackerParams map(TrackerParams params) {
-        return null;
+        return params;
     }
 
     @Nullable
