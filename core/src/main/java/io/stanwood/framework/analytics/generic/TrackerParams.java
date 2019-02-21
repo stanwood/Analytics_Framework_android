@@ -55,6 +55,15 @@ public class TrackerParams {
         return contentType;
     }
 
+    public Builder newBuilder(String eventName){
+        return new Builder(eventName)
+                .setId(itemId)
+                .setName(name)
+                .setCategory(category)
+                .setContentType(contentType)
+                .addCustomProperty(customProps);
+    }
+
     @Override
     public String toString() {
         return "TrackerParams{" +

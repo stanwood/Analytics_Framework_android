@@ -41,12 +41,8 @@ public class AdvancedAppTracker extends BaseAnalyticsTracker {
             FirebaseTracker firebaseTracker = FirebaseTrackerImpl.builder(application)
                     .mapFunction(new DefaultMapFunction() {
                         @Override
-                        public Bundle map(TrackerParams params) {
-                            Bundle bundle = new Bundle();
-                            bundle.putString("category", params.getCategory());
-                            bundle.putString("action", params.getName());
-                            bundle.putString("label", params.getItemId());
-                            return bundle;
+                        public TrackerParams map(TrackerParams params) {
+                            return params.newBuilder("fbevent").build();
                         }
                     }).build();
             Tracker adjustTracker = AdjustTrackerImpl.builder(application, "KEY")
