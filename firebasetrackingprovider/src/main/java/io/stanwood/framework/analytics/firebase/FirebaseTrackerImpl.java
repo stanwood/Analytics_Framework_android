@@ -20,7 +20,7 @@ import io.stanwood.framework.analytics.generic.TrackingKey;
 
 public class FirebaseTrackerImpl extends FirebaseTracker {
     private FirebaseAnalytics firebaseAnalytics;
-    private WeakReference<Activity> activityWeakReference;
+    private WeakReference<Activity> activityRef;
 
     protected FirebaseTrackerImpl(Builder builder) {
         super(builder);
@@ -44,7 +44,7 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
             context.registerActivityLifecycleCallbacks(lifecycleCallbacks);
         } else {
             context.unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
-            activityWeakReference = null;
+            activityRef = null;
         }
     }
 
@@ -53,7 +53,7 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
         TrackerParams mapped = mapFunc.map(params);
         if (mapped != null) {
             if (TrackingEvent.SCREEN_VIEW.equalsIgnoreCase(mapped.getEventName())) {
-                Activity activity = activityWeakReference.get();
+                Activity activity = activityRef.get();
                 if (activity != null) {
                     firebaseAnalytics.setCurrentScreen(activity, mapped.getName(), mapped.getCategory());
                 }
@@ -133,7 +133,7 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
 
         @Override
         public void onActivityResumed(Activity activity) {
-            activityWeakReference = new WeakReference<>(activity);
+            activityRef = new WeakReference<>(activity);
         }
 
         @Override
