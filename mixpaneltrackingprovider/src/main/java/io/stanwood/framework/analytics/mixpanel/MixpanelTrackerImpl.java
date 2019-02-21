@@ -49,9 +49,9 @@ public class MixpanelTrackerImpl extends MixpanelTracker {
             MixpanelAPI.People p = mixpanelAPI.getPeople();
             for (Map.Entry<String, Object> entry : mappedKeys.entrySet()) {
                 String key = entry.getKey();
-                if (key.equalsIgnoreCase(TrackingKey.USER_EMAIL)) {
+                if (TrackingKey.USER_EMAIL.equalsIgnoreCase(key)) {
                     p.set("$email", entry.getValue());
-                } else if (key.equalsIgnoreCase(TrackingKey.USER_ID)) {
+                } else if (TrackingKey.USER_ID.equalsIgnoreCase(key)) {
                     String userId = (String) entry.getValue();
                     p.identify(userId);
                     mixpanelAPI.identify(userId);

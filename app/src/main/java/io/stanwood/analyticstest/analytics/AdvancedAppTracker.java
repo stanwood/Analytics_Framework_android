@@ -2,7 +2,6 @@ package io.stanwood.analyticstest.analytics;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -41,19 +40,15 @@ public class AdvancedAppTracker extends BaseAnalyticsTracker {
             FirebaseTracker firebaseTracker = FirebaseTrackerImpl.builder(application)
                     .mapFunction(new DefaultMapFunction() {
                         @Override
-                        public Bundle map(TrackerParams params) {
-                            Bundle bundle = new Bundle();
-                            bundle.putString("category", params.getCategory());
-                            bundle.putString("action", params.getName());
-                            bundle.putString("label", params.getItemId());
-                            return bundle;
+                        public TrackerParams map(TrackerParams params) {
+                            return params.newBuilder("fbevent").build();
                         }
                     }).build();
             Tracker adjustTracker = AdjustTrackerImpl.builder(application, "KEY")
                     .mapFunction(new io.stanwood.framework.analytics.adjust.DefaultMapFunction() {
                         @Override
                         public String mapContentToken(TrackerParams params) {
-                            if (params.getEventName().equals(TrackingEvent.VIEW_ITEM) && params.getName().equals("home")) {
+                            if (TrackingEvent.SCREEN_VIEW.equalsIgnoreCase(params.getEventName()) && params.getName().equals("home")) {
                                 return "ADJUST_CONTENT_ID";
                             }
                             return null;
