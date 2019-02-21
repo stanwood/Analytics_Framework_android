@@ -11,7 +11,6 @@ import android.text.TextUtils;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-import java.lang.ref.WeakReference;
 import java.util.Map;
 
 import io.stanwood.framework.analytics.generic.TrackerParams;
@@ -20,7 +19,7 @@ import io.stanwood.framework.analytics.generic.TrackingKey;
 
 public class FirebaseTrackerImpl extends FirebaseTracker {
     private FirebaseAnalytics firebaseAnalytics;
-    private WeakReference<Activity> activityRef;
+    private Activity activity;
 
     protected FirebaseTrackerImpl(Builder builder) {
         super(builder);
@@ -44,7 +43,7 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
             context.registerActivityLifecycleCallbacks(lifecycleCallbacks);
         } else {
             context.unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
-            activityRef = null;
+            activity = null;
         }
     }
 
@@ -53,7 +52,6 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
         TrackerParams mapped = mapFunc.map(params);
         if (mapped != null) {
             if (TrackingEvent.SCREEN_VIEW.equalsIgnoreCase(mapped.getEventName())) {
-                Activity activity = activityRef.get();
                 if (activity != null) {
                     firebaseAnalytics.setCurrentScreen(activity, mapped.getName(), mapped.getCategory());
                 }
@@ -133,12 +131,12 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
 
         @Override
         public void onActivityResumed(Activity activity) {
-            activityRef = new WeakReference<>(activity);
+            FirebaseTrackerImpl.this.activity = activity;
         }
 
         @Override
         public void onActivityPaused(Activity activity) {
-
+            FirebaseTrackerImpl.this.activity = null;
         }
 
         @Override
