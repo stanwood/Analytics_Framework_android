@@ -20,6 +20,48 @@ import io.stanwood.framework.analytics.generic.TrackingKey;
 public class FirebaseTrackerImpl extends FirebaseTracker {
     private FirebaseAnalytics firebaseAnalytics;
     private Activity activity;
+    private boolean isActivityStarted;
+    private TrackerParams pending;
+    private Application.ActivityLifecycleCallbacks lifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
+
+        @Override
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+        }
+
+        @Override
+        public void onActivityStarted(Activity activity) {
+            isActivityStarted = true;
+        }
+
+        @Override
+        public void onActivityResumed(Activity activity) {
+            FirebaseTrackerImpl.this.activity = activity;
+            if (pending != null) {
+                setScreenName(activity, pending);
+            }
+        }
+
+        @Override
+        public void onActivityPaused(Activity activity) {
+            FirebaseTrackerImpl.this.activity = null;
+        }
+
+        @Override
+        public void onActivityStopped(Activity activity) {
+            isActivityStarted = false;
+        }
+
+        @Override
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+        }
+
+        @Override
+        public void onActivityDestroyed(Activity activity) {
+
+        }
+    };
 
     protected FirebaseTrackerImpl(Builder builder) {
         super(builder);
@@ -30,62 +72,6 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
     )
     public static Builder builder(Application context) {
         return new Builder(context);
-    }
-
-    @Override
-    @SuppressLint("MissingPermission")
-    protected void enable(boolean enabled) {
-        if (firebaseAnalytics == null) {
-            this.firebaseAnalytics = FirebaseAnalytics.getInstance(context);
-        }
-        firebaseAnalytics.setAnalyticsCollectionEnabled(enabled);
-        if (enabled) {
-            context.registerActivityLifecycleCallbacks(lifecycleCallbacks);
-        } else {
-            context.unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
-            activity = null;
-        }
-    }
-
-    @Override
-    public void track(@NonNull TrackerParams params) {
-        TrackerParams mapped = mapFunc.map(params);
-        if (mapped != null) {
-            if (TrackingEvent.SCREEN_VIEW.equalsIgnoreCase(mapped.getEventName())) {
-                if (activity != null) {
-                    firebaseAnalytics.setCurrentScreen(activity, mapped.getName(), mapped.getCategory());
-                }
-            } else {
-                firebaseAnalytics.logEvent(mapped.getEventName(), toBundle(mapped));
-            }
-        }
-        Map<String, Object> mappedKeys = mapFunc.mapKeys(params);
-        if (mappedKeys != null) {
-            for (Map.Entry<String, Object> entry : mappedKeys.entrySet()) {
-                if (entry.getValue() == null) {
-                    continue;
-                }
-                if (TrackingKey.USER_ID.equalsIgnoreCase(entry.getKey())) {
-                    firebaseAnalytics.setUserId(entry.getValue().toString());
-                } else {
-                    firebaseAnalytics.setUserProperty(entry.getKey(), entry.getValue().toString());
-                }
-            }
-        }
-    }
-
-    public static class Builder extends FirebaseTracker.Builder {
-        Builder(Application context) {
-            super(context);
-        }
-
-        @Override
-        public FirebaseTrackerImpl build() {
-            if (mapFunc == null) {
-                mapFunc = new DefaultMapFunction();
-            }
-            return new FirebaseTrackerImpl(this);
-        }
     }
 
     private static Bundle toBundle(TrackerParams params) {
@@ -117,42 +103,67 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
         return bundle;
     }
 
-    private Application.ActivityLifecycleCallbacks lifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
+    @Override
+    @SuppressLint("MissingPermission")
+    protected void enable(boolean enabled) {
+        if (firebaseAnalytics == null) {
+            this.firebaseAnalytics = FirebaseAnalytics.getInstance(context);
+        }
+        firebaseAnalytics.setAnalyticsCollectionEnabled(enabled);
+        if (enabled) {
+            context.registerActivityLifecycleCallbacks(lifecycleCallbacks);
+        } else {
+            context.unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
+            activity = null;
+        }
+    }
 
-        @Override
-        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+    @Override
+    public void track(@NonNull TrackerParams params) {
+        TrackerParams mapped = mapFunc.map(params);
+        if (mapped != null) {
+            if (TrackingEvent.SCREEN_VIEW.equalsIgnoreCase(mapped.getEventName())) {
+                if (activity != null) {
+                    setScreenName(activity, mapped);
+                } else if (isActivityStarted) {
+                    pending = mapped;
+                }
+            } else {
+                firebaseAnalytics.logEvent(mapped.getEventName(), toBundle(mapped));
+            }
+        }
+        Map<String, Object> mappedKeys = mapFunc.mapKeys(params);
+        if (mappedKeys != null) {
+            for (Map.Entry<String, Object> entry : mappedKeys.entrySet()) {
+                if (entry.getValue() == null) {
+                    continue;
+                }
+                if (TrackingKey.USER_ID.equalsIgnoreCase(entry.getKey())) {
+                    firebaseAnalytics.setUserId(entry.getValue().toString());
+                } else {
+                    firebaseAnalytics.setUserProperty(entry.getKey(), entry.getValue().toString());
+                }
+            }
+        }
+    }
 
+    private void setScreenName(Activity activity, TrackerParams params) {
+        firebaseAnalytics.setCurrentScreen(activity, params.getName(), params.getCategory());
+        pending = null;
+    }
+
+    public static class Builder extends FirebaseTracker.Builder {
+        Builder(Application context) {
+            super(context);
         }
 
         @Override
-        public void onActivityStarted(Activity activity) {
-
+        public FirebaseTrackerImpl build() {
+            if (mapFunc == null) {
+                mapFunc = new DefaultMapFunction();
+            }
+            return new FirebaseTrackerImpl(this);
         }
-
-        @Override
-        public void onActivityResumed(Activity activity) {
-            FirebaseTrackerImpl.this.activity = activity;
-        }
-
-        @Override
-        public void onActivityPaused(Activity activity) {
-            FirebaseTrackerImpl.this.activity = null;
-        }
-
-        @Override
-        public void onActivityStopped(Activity activity) {
-
-        }
-
-        @Override
-        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
-        }
-
-        @Override
-        public void onActivityDestroyed(Activity activity) {
-
-        }
-    };
+    }
 
 }
