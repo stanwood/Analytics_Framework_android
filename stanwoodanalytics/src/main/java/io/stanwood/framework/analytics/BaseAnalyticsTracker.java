@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 
 import java.util.Map;
 
@@ -144,7 +145,18 @@ public class BaseAnalyticsTracker implements AnalyticsTracker, TrackerContainer.
      * @param screenName an unique screen name
      */
     public void trackScreenView(@NonNull String screenName) {
-        trackScreenView(screenName, null);
+        trackScreenView(screenName, null, null);
+    }
+
+    /**
+     * Tracks a screen view.
+     * <br><br>
+     *
+     * @param screenName an unique screen name
+     * @param screenClass screens class name
+     */
+    public void trackScreenView(@NonNull String screenName, @Nullable String screenClass) {
+        trackScreenView(screenName, screenClass, null);
     }
 
     /***
@@ -154,8 +166,27 @@ public class BaseAnalyticsTracker implements AnalyticsTracker, TrackerContainer.
      * @param screenName an unique screen name
      * @param customProps custom property's
      */
-    protected void trackScreenView(@NonNull String screenName, Map<String, Object> customProps) {
-        trackerContainer.trackEvent(TrackerParams.builder(TrackingEvent.VIEW_ITEM).setName(screenName).addCustomProperty(customProps).build());
+    public void trackScreenView(@NonNull String screenName, @Nullable Map<String, Object> customProps) {
+        trackScreenView(screenName, null, customProps);
+    }
+
+    /***
+     * Tracks a screen view.
+     * <br><br>
+     *
+     * @param screenName an unique screen name
+     * @param screenClass screens class name
+     * @param customProps custom property's
+     */
+    protected void trackScreenView(@NonNull String screenName, @Nullable String screenClass, @Nullable Map<String, Object> customProps) {
+        TrackerParams.Builder builder = TrackerParams.builder(TrackingEvent.SCREEN_VIEW).setName(screenName);
+        if (!TextUtils.isEmpty(screenClass)) {
+            builder.setCategory(screenClass);
+        }
+        if (customProps != null) {
+            builder.addCustomProperty(customProps);
+        }
+        trackerContainer.trackEvent(builder.build());
     }
 
     /**

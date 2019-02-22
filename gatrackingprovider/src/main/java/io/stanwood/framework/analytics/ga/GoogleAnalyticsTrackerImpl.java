@@ -52,10 +52,10 @@ public class GoogleAnalyticsTrackerImpl extends GoogleAnalyticsTracker {
         TrackerParams mapped = mapFunc.mapParams(params);
         HitBuilders.HitBuilder<?> builder = null;
         if (mapped != null) {
-            if (mapped.getEventName().equalsIgnoreCase(TrackingEvent.VIEW_ITEM)) {
+            if (TrackingEvent.SCREEN_VIEW.equalsIgnoreCase(mapped.getEventName())) {
                 tracker.setScreenName(params.getName());
                 builder = new HitBuilders.ScreenViewBuilder();
-            } else if (mapped.getEventName().equalsIgnoreCase(TrackingEvent.PURCHASE)) {
+            } else if (TrackingEvent.PURCHASE.equalsIgnoreCase(mapped.getEventName())) {
                 trackPurchase(mapped);
             } else {
                 HitBuilders.EventBuilder eventBuilder = new HitBuilders.EventBuilder().setCategory(params.getEventName());

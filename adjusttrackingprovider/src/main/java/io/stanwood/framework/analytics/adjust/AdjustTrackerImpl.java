@@ -29,7 +29,7 @@ public class AdjustTrackerImpl extends AdjustTracker {
         String eventToken = mapFunc.mapContentToken(params);
         if (!TextUtils.isEmpty(eventToken)) {
             AdjustEvent event = new AdjustEvent(eventToken);
-            if (params.getEventName().equalsIgnoreCase(TrackingEvent.PURCHASE)) {
+            if (TrackingEvent.PURCHASE.equalsIgnoreCase(params.getEventName())) {
                 event.setRevenue((double) params.getCustomPropertys().get(TrackingKey.PURCHASE_PRICE), "EUR");
             }
             Adjust.trackEvent(event);
