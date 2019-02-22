@@ -21,7 +21,7 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
     private FirebaseAnalytics firebaseAnalytics;
     private Activity activity;
     private boolean isActivityStarted;
-    private TrackerParams pending;
+    private TrackerParams pendingScreenView;
     private Application.ActivityLifecycleCallbacks lifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
 
         @Override
@@ -37,8 +37,8 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
         @Override
         public void onActivityResumed(Activity activity) {
             FirebaseTrackerImpl.this.activity = activity;
-            if (pending != null) {
-                setScreenName(activity, pending);
+            if (pendingScreenView != null) {
+                setScreenName(activity, pendingScreenView);
             }
         }
 
@@ -50,6 +50,7 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
         @Override
         public void onActivityStopped(Activity activity) {
             isActivityStarted = false;
+            pendingScreenView = null;
         }
 
         @Override
@@ -126,7 +127,7 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
                 if (activity != null) {
                     setScreenName(activity, mapped);
                 } else if (isActivityStarted) {
-                    pending = mapped;
+                    pendingScreenView = mapped;
                 }
             } else {
                 firebaseAnalytics.logEvent(mapped.getEventName(), toBundle(mapped));
@@ -149,7 +150,7 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
 
     private void setScreenName(Activity activity, TrackerParams params) {
         firebaseAnalytics.setCurrentScreen(activity, params.getName(), params.getCategory());
-        pending = null;
+        pendingScreenView = null;
     }
 
     public static class Builder extends FirebaseTracker.Builder {
