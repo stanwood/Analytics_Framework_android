@@ -20,9 +20,6 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
 
         @Override
         public FirebaseTrackerImpl build() {
-            if (mapFunc == null) {
-                mapFunc = new DefaultMapFunction();
-            }
             return new FirebaseTrackerImpl(this);
         }
     }

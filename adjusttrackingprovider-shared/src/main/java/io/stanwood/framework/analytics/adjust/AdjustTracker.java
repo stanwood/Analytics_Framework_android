@@ -2,9 +2,8 @@ package io.stanwood.framework.analytics.adjust;
 
 
 import android.app.Application;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
+import androidx.annotation.NonNull;
 import io.stanwood.framework.analytics.generic.Tracker;
 import io.stanwood.framework.analytics.generic.TrackerParams;
 
@@ -12,11 +11,12 @@ public abstract class AdjustTracker extends Tracker {
     public static final String TRACKER_NAME = "adjust";
     protected final String appKey;
     protected final MapFunction mapFunc;
+
     protected AdjustTracker(Builder builder) {
         super(builder);
         this.appKey = builder.appKey;
         if (builder.mapFunc == null) {
-            mapFunc = new DefaultMapFunction();
+            mapFunc = new MapFunction();
         } else {
             mapFunc = builder.mapFunc;
         }
@@ -42,14 +42,8 @@ public abstract class AdjustTracker extends Tracker {
         //noop
     }
 
-    public interface MapFunction {
-        @Nullable
-        String mapContentToken(TrackerParams params);
-    }
+    public static class MapFunction {
 
-    public static class DefaultMapFunction implements MapFunction {
-
-        @Override
         public String mapContentToken(TrackerParams params) {
             return null;
         }

@@ -39,14 +39,14 @@ public class AdvancedAppTracker extends BaseAnalyticsTracker {
     public static synchronized void init(Application application) {
         if (instance == null) {
             FirebaseTracker firebaseTracker = FirebaseTrackerImpl.builder(application)
-                    .mapFunction(new FirebaseTracker.DefaultMapFunction() {
+                    .mapFunction(new FirebaseTracker.MapFunction() {
                         @Override
                         public TrackerParams map(TrackerParams params) {
                             return params.newBuilder("fbevent").build();
                         }
                     }).build();
             Tracker adjustTracker = AdjustTrackerImpl.builder(application, "KEY")
-                    .mapFunction(new AdjustTracker.DefaultMapFunction() {
+                    .mapFunction(new AdjustTracker.MapFunction() {
                         @Override
                         public String mapContentToken(TrackerParams params) {
                             if (TrackingEvent.SCREEN_VIEW.equalsIgnoreCase(params.getEventName()) && params.getName().equals("home")) {
@@ -57,7 +57,7 @@ public class AdvancedAppTracker extends BaseAnalyticsTracker {
                     })
                     .build();
             Tracker mixpanelTracker = MixpanelTrackerImpl.builder(application, "KEY")
-                    .mapFunction(new MixpanelTracker.DefaultMapFunction() {
+                    .mapFunction(new MixpanelTracker.MapFunction() {
                         @Override
                         public TrackerParams map(TrackerParams params) {
                             return TrackerParams.builder(params.getEventName())

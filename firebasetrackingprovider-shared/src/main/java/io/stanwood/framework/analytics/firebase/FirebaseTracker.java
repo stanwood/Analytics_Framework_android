@@ -17,7 +17,11 @@ public abstract class FirebaseTracker extends Tracker {
 
     protected FirebaseTracker(Builder builder) {
         super(builder);
-        mapFunc = builder.mapFunc;
+        if (builder.mapFunc == null) {
+            mapFunc = new MapFunction();
+        } else {
+            mapFunc = builder.mapFunc;
+        }
     }
 
     @Override
@@ -40,15 +44,6 @@ public abstract class FirebaseTracker extends Tracker {
         return TRACKER_NAME;
     }
 
-    public interface MapFunction {
-        @Nullable
-        TrackerParams map(TrackerParams params);
-
-        @Nullable
-        Map<String, Object> mapKeys(TrackerParams keys);
-
-    }
-
     public static abstract class Builder extends Tracker.Builder<Builder> {
         protected MapFunction mapFunc = null;
 
@@ -65,15 +60,13 @@ public abstract class FirebaseTracker extends Tracker {
         }
     }
 
-    public static class DefaultMapFunction implements MapFunction {
+    public static class MapFunction {
         @Nullable
-        @Override
         public TrackerParams map(TrackerParams params) {
             return params;
         }
 
         @Nullable
-        @Override
         public Map<String, Object> mapKeys(TrackerParams params) {
             if (params.getEventName().equals(TrackingEvent.IDENTIFY_USER)) {
                 return params.getCustomPropertys();

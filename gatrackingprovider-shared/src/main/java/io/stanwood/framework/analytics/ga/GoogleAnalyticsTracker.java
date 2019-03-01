@@ -27,7 +27,7 @@ public abstract class GoogleAnalyticsTracker extends Tracker {
         this.adIdCollection = builder.adIdCollection;
         this.anonymizeIp = builder.anonymizeIp;
         if (builder.mapFunc == null) {
-            mapFunc = new DefaultMapFunction();
+            mapFunc = new MapFunction();
         } else {
             mapFunc = builder.mapFunc;
         }
@@ -58,24 +58,14 @@ public abstract class GoogleAnalyticsTracker extends Tracker {
         //noop
     }
 
-    public interface MapFunction {
-        @Nullable
-        TrackerParams mapParams(TrackerParams params);
+    public static class MapFunction {
 
         @Nullable
-        Map<Integer, Object> mapKeys(TrackerParams params);
-    }
-
-    public static class DefaultMapFunction implements MapFunction {
-
-        @Nullable
-        @Override
         public TrackerParams mapParams(TrackerParams params) {
             return params;
         }
 
         @Nullable
-        @Override
         public Map<Integer, Object> mapKeys(TrackerParams params) {
             return null;
         }
