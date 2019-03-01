@@ -2,7 +2,10 @@ package io.stanwood.framework.analytics.fabric;
 
 
 import android.app.Application;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.util.Map;
 
 import io.stanwood.framework.analytics.generic.Tracker;
 import io.stanwood.framework.analytics.generic.TrackerParams;
@@ -38,6 +41,31 @@ public abstract class FabricTracker extends Tracker {
     @Override
     public void track(@NonNull Throwable throwable) {
         //noop
+    }
+
+    public interface MapFunction {
+        @Nullable
+        String map(TrackerParams params);
+
+        @Nullable
+        Map<String, Object> mapKeys(TrackerParams params);
+
+    }
+
+    public static class DefaultMapFunction implements MapFunction {
+
+
+        @Nullable
+        @Override
+        public String map(TrackerParams params) {
+            return String.format("[%s] [%s]", params.getName(), params.getItemId());
+        }
+
+        @Nullable
+        @Override
+        public Map<String, Object> mapKeys(TrackerParams params) {
+            return params.getCustomPropertys();
+        }
     }
 
     public static abstract class Builder extends Tracker.Builder<Builder> {

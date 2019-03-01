@@ -3,11 +3,9 @@ package io.stanwood.framework.analytics.debug;
 
 import android.app.Application;
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
-
-import org.json.JSONObject;
 
 import java.util.Map;
 
@@ -25,7 +23,6 @@ public class DebugViewTrackerImpl extends DebugViewTracker {
 
     @Override
     public void track(@NonNull TrackerParams params) {
-        JSONObject object = new JSONObject();
         StringBuilder sb = new StringBuilder();
         sb.append(System.currentTimeMillis())
                 .append("|")

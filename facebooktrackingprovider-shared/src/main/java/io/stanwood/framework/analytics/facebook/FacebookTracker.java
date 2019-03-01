@@ -2,7 +2,9 @@ package io.stanwood.framework.analytics.facebook;
 
 
 import android.app.Application;
-import android.support.annotation.NonNull;
+import android.os.Bundle;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import io.stanwood.framework.analytics.generic.Tracker;
 import io.stanwood.framework.analytics.generic.TrackerParams;
@@ -11,7 +13,6 @@ public abstract class FacebookTracker extends Tracker {
     public static final String TRACKER_NAME = "facebook";
     protected final MapFunction mapFunc;
     protected final String appKey;
-
     protected FacebookTracker(Builder builder) {
         super(builder);
         if (builder.mapFunc == null) {
@@ -40,6 +41,23 @@ public abstract class FacebookTracker extends Tracker {
     @Override
     public void track(@NonNull Throwable throwable) {
         //noop
+    }
+
+    public interface MapFunction {
+
+        @Nullable
+        Bundle map(TrackerParams params);
+
+    }
+
+    public static class DefaultMapFunction implements MapFunction {
+
+        @Nullable
+        @Override
+        public Bundle map(TrackerParams params) {
+            return null;
+        }
+
     }
 
     public static abstract class Builder extends Tracker.Builder<Builder> {

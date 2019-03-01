@@ -2,7 +2,7 @@ package io.stanwood.framework.analytics.generic;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 class TrackerSettingsService {
     private final Context context;

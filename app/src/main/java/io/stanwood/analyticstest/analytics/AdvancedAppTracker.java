@@ -2,8 +2,8 @@ package io.stanwood.analyticstest.analytics;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.firebase.perf.FirebasePerformance;
 
@@ -11,16 +11,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.stanwood.framework.analytics.BaseAnalyticsTracker;
+import io.stanwood.framework.analytics.adjust.AdjustTracker;
 import io.stanwood.framework.analytics.adjust.AdjustTrackerImpl;
 import io.stanwood.framework.analytics.fabric.FabricTracker;
 import io.stanwood.framework.analytics.fabric.FabricTrackerImpl;
-import io.stanwood.framework.analytics.firebase.DefaultMapFunction;
 import io.stanwood.framework.analytics.firebase.FirebaseTracker;
 import io.stanwood.framework.analytics.firebase.FirebaseTrackerImpl;
 import io.stanwood.framework.analytics.ga.GoogleAnalyticsTrackerImpl;
 import io.stanwood.framework.analytics.generic.Tracker;
 import io.stanwood.framework.analytics.generic.TrackerParams;
 import io.stanwood.framework.analytics.generic.TrackingEvent;
+import io.stanwood.framework.analytics.mixpanel.MixpanelTracker;
 import io.stanwood.framework.analytics.mixpanel.MixpanelTrackerImpl;
 import timber.log.Timber;
 
@@ -38,14 +39,14 @@ public class AdvancedAppTracker extends BaseAnalyticsTracker {
     public static synchronized void init(Application application) {
         if (instance == null) {
             FirebaseTracker firebaseTracker = FirebaseTrackerImpl.builder(application)
-                    .mapFunction(new DefaultMapFunction() {
+                    .mapFunction(new FirebaseTracker.DefaultMapFunction() {
                         @Override
                         public TrackerParams map(TrackerParams params) {
                             return params.newBuilder("fbevent").build();
                         }
                     }).build();
             Tracker adjustTracker = AdjustTrackerImpl.builder(application, "KEY")
-                    .mapFunction(new io.stanwood.framework.analytics.adjust.DefaultMapFunction() {
+                    .mapFunction(new AdjustTracker.DefaultMapFunction() {
                         @Override
                         public String mapContentToken(TrackerParams params) {
                             if (TrackingEvent.SCREEN_VIEW.equalsIgnoreCase(params.getEventName()) && params.getName().equals("home")) {
@@ -56,7 +57,7 @@ public class AdvancedAppTracker extends BaseAnalyticsTracker {
                     })
                     .build();
             Tracker mixpanelTracker = MixpanelTrackerImpl.builder(application, "KEY")
-                    .mapFunction(new io.stanwood.framework.analytics.mixpanel.DefaultMapFunction() {
+                    .mapFunction(new MixpanelTracker.DefaultMapFunction() {
                         @Override
                         public TrackerParams map(TrackerParams params) {
                             return TrackerParams.builder(params.getEventName())

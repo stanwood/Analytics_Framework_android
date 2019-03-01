@@ -3,8 +3,8 @@ package io.stanwood.framework.analytics.ga;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresPermission;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresPermission;
 import android.text.TextUtils;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
