@@ -2,7 +2,7 @@ package io.stanwood.framework.analytics.generic;
 
 
 import android.app.Application;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public abstract class Tracker {
     protected Application context;

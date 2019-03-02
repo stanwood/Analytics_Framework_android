@@ -1,10 +1,11 @@
 package io.stanwood.framework.analytics;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
+
+import androidx.fragment.app.DialogFragment;
 
 public class OptOutDialog extends DialogFragment {
     @Override

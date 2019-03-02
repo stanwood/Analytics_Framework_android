@@ -3,8 +3,8 @@ package io.stanwood.framework.analytics.facebook;
 
 import android.app.Application;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresPermission;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresPermission;
 
 import com.facebook.FacebookSdk;
 import com.facebook.LoggingBehavior;
