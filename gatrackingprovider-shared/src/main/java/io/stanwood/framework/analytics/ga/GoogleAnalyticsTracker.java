@@ -3,7 +3,10 @@ package io.stanwood.framework.analytics.ga;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.util.Map;
 
 import io.stanwood.framework.analytics.generic.Tracker;
 import io.stanwood.framework.analytics.generic.TrackerParams;
@@ -16,7 +19,6 @@ public abstract class GoogleAnalyticsTracker extends Tracker {
     protected final boolean activityTracking;
     protected final boolean adIdCollection;
     protected final MapFunction mapFunc;
-
     protected GoogleAnalyticsTracker(Builder builder) {
         super(builder);
         this.appKey = builder.appKey;
@@ -25,12 +27,11 @@ public abstract class GoogleAnalyticsTracker extends Tracker {
         this.adIdCollection = builder.adIdCollection;
         this.anonymizeIp = builder.anonymizeIp;
         if (builder.mapFunc == null) {
-            mapFunc = new DefaultMapFunction();
+            mapFunc = new MapFunction();
         } else {
             mapFunc = builder.mapFunc;
         }
     }
-
 
     @Override
     @SuppressLint("MissingPermission")
@@ -42,7 +43,6 @@ public abstract class GoogleAnalyticsTracker extends Tracker {
     public void track(@NonNull TrackerParams params) {
         //noop
     }
-
 
     @Override
     final public String getTrackerName() {
@@ -58,6 +58,18 @@ public abstract class GoogleAnalyticsTracker extends Tracker {
         //noop
     }
 
+    public static class MapFunction {
+
+        @Nullable
+        public TrackerParams mapParams(TrackerParams params) {
+            return params;
+        }
+
+        @Nullable
+        public Map<Integer, Object> mapKeys(TrackerParams params) {
+            return null;
+        }
+    }
 
     public abstract static class Builder<T extends Tracker.Builder<T>> extends Tracker.Builder<T> {
         private int sampleRate = 100;

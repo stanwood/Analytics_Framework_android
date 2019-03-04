@@ -5,8 +5,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresPermission;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresPermission;
 import android.text.TextUtils;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -160,9 +160,6 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
 
         @Override
         public FirebaseTrackerImpl build() {
-            if (mapFunc == null) {
-                mapFunc = new DefaultMapFunction();
-            }
             return new FirebaseTrackerImpl(this);
         }
     }

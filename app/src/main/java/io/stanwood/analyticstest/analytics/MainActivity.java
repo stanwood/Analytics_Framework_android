@@ -1,8 +1,9 @@
 package io.stanwood.analyticstest.analytics;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
+
+import androidx.appcompat.app.AppCompatActivity;
 import io.stanwood.framework.analytics.fabric.FabricTrackerImpl;
 import io.stanwood.framework.analytics.firebase.FirebaseTrackerImpl;
 import timber.log.Timber;

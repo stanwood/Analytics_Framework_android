@@ -1,21 +1,21 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 group = 'com.github.stanwood.Analytics_Framework_android'
-version = project.ext.FrameworkVersion
+version = FrameworkVersion
 android {
-    compileSdkVersion project.ext.CompileSdkVersion
+    compileSdkVersion CompileSdkVersion
 
     defaultConfig {
-        minSdkVersion project.ext.MinSdkVersion
-        targetSdkVersion project.ext.TargetSdkVersion
+        minSdkVersion MinSdkVersion
+        targetSdkVersion TargetSdkVersion
         versionCode 1
-        versionName project.ext.FrameworkVersion
+        versionName FrameworkVersion
     }
 }
 
 dependencies {
     implementation project(':core')
-    implementation "com.android.support:support-annotations:$rootProject.ext.SupportLibVersion"
+    implementation "androidx.annotation:annotation:$AnnotationVersion"
     api project(':mixpaneltrackingprovider-shared')
 }
 

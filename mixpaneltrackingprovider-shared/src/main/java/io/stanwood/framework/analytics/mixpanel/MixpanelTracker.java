@@ -2,10 +2,14 @@ package io.stanwood.framework.analytics.mixpanel;
 
 
 import android.app.Application;
-import android.support.annotation.NonNull;
 
+import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import io.stanwood.framework.analytics.generic.Tracker;
 import io.stanwood.framework.analytics.generic.TrackerParams;
+import io.stanwood.framework.analytics.generic.TrackingEvent;
 
 public abstract class MixpanelTracker extends Tracker {
     public static final String TRACKER_NAME = "mixpanel";
@@ -18,7 +22,7 @@ public abstract class MixpanelTracker extends Tracker {
         this.appKey = builder.appKey;
         this.senderId = builder.senderId;
         if (builder.mapFunc == null) {
-            mapFunc = new DefaultMapFunction();
+            mapFunc = new MapFunction();
         } else {
             mapFunc = builder.mapFunc;
         }
@@ -42,6 +46,22 @@ public abstract class MixpanelTracker extends Tracker {
     @Override
     final public String getTrackerName() {
         return TRACKER_NAME;
+    }
+
+    public static class MapFunction {
+
+        @Nullable
+        public TrackerParams map(TrackerParams params) {
+            return params;
+        }
+
+        @Nullable
+        public Map<String, Object> mapKeys(TrackerParams params) {
+            if (params.getEventName().equals(TrackingEvent.IDENTIFY_USER)) {
+                return params.getCustomPropertys();
+            }
+            return null;
+        }
     }
 
     public abstract static class Builder extends Tracker.Builder<Builder> {

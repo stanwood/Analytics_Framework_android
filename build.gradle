@@ -2,6 +2,15 @@
 
 buildscript {
 
+    ext.AnnotationVersion = '1.0.0'
+    ext.FragmentVersion = '1.0.0'
+    ext.AppCompatVersion = '1.0.2'
+    ext.MinSdkVersion = 16
+    ext.TargetSdkVersion = 28
+    ext.CompileSdkVersion = 28
+    ext.PlayServicesAnalyticsVersion = '16.0.7'
+    ext.FrameworkVersion = '1.4.1'
+
     repositories {
         google()
         jcenter()
@@ -16,17 +25,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-    }
-
-    project.ext {
-        MinSdkVersion = 16
-        TargetSdkVersion = 28
-        CompileSdkVersion = 28
-        SupportLibVersion = '28.0.0'
-        FirebaseCoreVersion = '16.0.7'
-        FirebasePerfVersion = '16.2.2'
-        PlayServicesAnalyticsVersion = '16.0.7'
-        FrameworkVersion = '1.4.1'
     }
 }
 
