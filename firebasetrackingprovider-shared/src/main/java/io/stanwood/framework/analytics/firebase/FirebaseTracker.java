@@ -2,10 +2,14 @@ package io.stanwood.framework.analytics.firebase;
 
 
 import android.app.Application;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.util.Map;
 
 import io.stanwood.framework.analytics.generic.Tracker;
 import io.stanwood.framework.analytics.generic.TrackerParams;
+import io.stanwood.framework.analytics.generic.TrackingEvent;
 
 public abstract class FirebaseTracker extends Tracker {
     public static final String TRACKER_NAME = "firebase";
@@ -13,7 +17,11 @@ public abstract class FirebaseTracker extends Tracker {
 
     protected FirebaseTracker(Builder builder) {
         super(builder);
-        mapFunc = builder.mapFunc;
+        if (builder.mapFunc == null) {
+            mapFunc = new MapFunction();
+        } else {
+            mapFunc = builder.mapFunc;
+        }
     }
 
     @Override
@@ -49,6 +57,21 @@ public abstract class FirebaseTracker extends Tracker {
         public Builder mapFunction(MapFunction func) {
             this.mapFunc = func;
             return this;
+        }
+    }
+
+    public static class MapFunction {
+        @Nullable
+        public TrackerParams map(TrackerParams params) {
+            return params;
+        }
+
+        @Nullable
+        public Map<String, Object> mapKeys(TrackerParams params) {
+            if (params.getEventName().equals(TrackingEvent.IDENTIFY_USER)) {
+                return params.getCustomPropertys();
+            }
+            return null;
         }
     }
 

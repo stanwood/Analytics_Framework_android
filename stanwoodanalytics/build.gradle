@@ -1,22 +1,22 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 group = 'com.github.stanwood.Analytics_Framework_android'
-version = project.ext.FrameworkVersion
+version = FrameworkVersion
 android {
-    compileSdkVersion project.ext.CompileSdkVersion
+    compileSdkVersion CompileSdkVersion
 
     defaultConfig {
-        minSdkVersion project.ext.MinSdkVersion
-        targetSdkVersion project.ext.TargetSdkVersion
+        minSdkVersion MinSdkVersion
+        targetSdkVersion TargetSdkVersion
         versionCode 1
-        versionName project.ext.FrameworkVersion
+        versionName FrameworkVersion
     }
 }
 
 dependencies {
-    implementation "com.android.support:support-annotations:$rootProject.ext.SupportLibVersion"
-    implementation "com.android.support:appcompat-v7:$rootProject.ext.SupportLibVersion"
-    api 'com.jakewharton.timber:timber:4.7.0'
+    implementation "androidx.annotation:annotation:$AnnotationVersion"
+    implementation "androidx.fragment:fragment:$FragmentVersion"
+    api 'com.jakewharton.timber:timber:4.7.1'
     api project(':core')
     api project(':firebasetrackingprovider-shared')
     api project(':fabrictrackingprovider-shared')

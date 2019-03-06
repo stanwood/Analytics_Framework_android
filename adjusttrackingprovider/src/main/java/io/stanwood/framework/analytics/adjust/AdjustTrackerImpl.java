@@ -2,7 +2,7 @@ package io.stanwood.framework.analytics.adjust;
 
 
 import android.app.Application;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.adjust.sdk.Adjust;
