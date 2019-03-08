@@ -63,7 +63,7 @@ public class BaseAnalyticsTracker implements AnalyticsTracker, TrackerContainer.
     public void enable(@NonNull Context context, boolean enable, @Nullable String... trackerNames) {
         FragmentActivity activity = findActivity(context);
         if (activity == null) {
-            throw new IllegalStateException("Illegal context used");
+            throw new IllegalStateException("Context must be a child of FragmentActivity");
         }
         enableImpl(activity, enable, trackerNames);
     }
