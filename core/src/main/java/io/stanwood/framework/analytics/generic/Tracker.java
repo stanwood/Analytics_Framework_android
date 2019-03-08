@@ -2,6 +2,7 @@ package io.stanwood.framework.analytics.generic;
 
 
 import android.app.Application;
+
 import androidx.annotation.NonNull;
 
 public abstract class Tracker {
@@ -24,7 +25,7 @@ public abstract class Tracker {
     }
 
     void trackEvent(@NonNull TrackerParams params) {
-        if (enabled) {
+        if (enabled && (params.getExclusive() == null || params.getExclusive().contains(getTrackerName()))) {
             track(params);
         }
     }
