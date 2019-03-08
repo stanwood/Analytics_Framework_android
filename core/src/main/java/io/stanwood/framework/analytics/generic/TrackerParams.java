@@ -1,10 +1,12 @@
 package io.stanwood.framework.analytics.generic;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class TrackerParams {
     private final String eventName;
@@ -13,6 +15,7 @@ public class TrackerParams {
     private String category;
     private String contentType;
     private Map<String, Object> customProps;
+    private Set<String> exclusive;
 
     private TrackerParams(@NonNull Builder builder) {
         eventName = builder.eventName;
@@ -21,6 +24,7 @@ public class TrackerParams {
         category = builder.category;
         contentType = builder.contentType;
         customProps = builder.customProps;
+        exclusive = builder.exclusive;
     }
 
     public static Builder builder(String eventName) {
@@ -55,13 +59,18 @@ public class TrackerParams {
         return contentType;
     }
 
-    public Builder newBuilder(String eventName){
+    public Set<String> getExclusive() {
+        return exclusive;
+    }
+
+    public Builder newBuilder(String eventName) {
         return new Builder(eventName)
                 .setId(itemId)
                 .setName(name)
                 .setCategory(category)
                 .setContentType(contentType)
-                .addCustomProperty(customProps);
+                .addCustomProperty(customProps)
+                .addExclusiveTracker(exclusive);
     }
 
     @Override
@@ -82,6 +91,7 @@ public class TrackerParams {
         private String category = null;
         private String contentType = null;
         private Map<String, Object> customProps;
+        private Set<String> exclusive;
 
         Builder(@NonNull String eventName) {
             this.eventName = eventName;
@@ -124,6 +134,20 @@ public class TrackerParams {
             }
             return this;
         }
+
+        public Builder addExclusiveTracker(String trackerName) {
+            if (exclusive == null) {
+                exclusive = new HashSet<>();
+            }
+            exclusive.add(trackerName);
+            return this;
+        }
+
+        public Builder addExclusiveTracker(Set<String> trackerNames) {
+            this.exclusive = trackerNames;
+            return this;
+        }
+
 
         public TrackerParams build() {
             return new TrackerParams(this);
