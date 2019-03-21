@@ -53,16 +53,16 @@ public class GoogleAnalyticsTrackerImpl extends GoogleAnalyticsTracker {
         HitBuilders.HitBuilder<?> builder = null;
         if (mapped != null) {
             if (TrackingEvent.SCREEN_VIEW.equalsIgnoreCase(mapped.getEventName())) {
-                tracker.setScreenName(params.getName());
+                tracker.setScreenName(mapped.getName());
                 builder = new HitBuilders.ScreenViewBuilder();
             } else if (TrackingEvent.PURCHASE.equalsIgnoreCase(mapped.getEventName())) {
                 trackPurchase(mapped);
             } else {
-                HitBuilders.EventBuilder eventBuilder = new HitBuilders.EventBuilder().setCategory(params.getEventName());
-                if (!TextUtils.isEmpty(params.getName())) {
-                    eventBuilder.setAction(params.getName());
-                    if (!TextUtils.isEmpty(params.getItemId())) {
-                        eventBuilder.setLabel(params.getItemId());
+                HitBuilders.EventBuilder eventBuilder = new HitBuilders.EventBuilder().setCategory(mapped.getEventName());
+                if (!TextUtils.isEmpty(mapped.getName())) {
+                    eventBuilder.setAction(mapped.getName());
+                    if (!TextUtils.isEmpty(mapped.getItemId())) {
+                        eventBuilder.setLabel(mapped.getItemId());
                     }
                 }
                 builder = eventBuilder;
