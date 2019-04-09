@@ -3,12 +3,12 @@ package io.stanwood.framework.analytics;
 
 import android.content.Context;
 import android.content.ContextWrapper;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.text.TextUtils;
 
 import java.util.Map;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 import io.stanwood.framework.analytics.fabric.FabricTracker;
@@ -152,7 +152,7 @@ public class BaseAnalyticsTracker implements AnalyticsTracker, TrackerContainer.
      * Tracks a screen view.
      * <br><br>
      *
-     * @param screenName an unique screen name
+     * @param screenName  an unique screen name
      * @param screenClass screens class name
      */
     public void trackScreenView(@NonNull String screenName, @Nullable String screenClass) {
@@ -205,7 +205,7 @@ public class BaseAnalyticsTracker implements AnalyticsTracker, TrackerContainer.
                 .build());
     }
 
-    public void trackPurchase(@NonNull String id, @NonNull String orderId, @NonNull String name, int quantity, double price, @Nullable String category, @Nullable String brand) {
+    public void trackPurchase(@NonNull String id, @NonNull String orderId, @NonNull String name, int quantity, double price, @NonNull String currency, @Nullable String category, @Nullable String brand) {
         trackerContainer.trackEvent(TrackerParams.builder(TrackingEvent.PURCHASE)
                 .setName(name)
                 .setId(id)
@@ -214,6 +214,7 @@ public class BaseAnalyticsTracker implements AnalyticsTracker, TrackerContainer.
                 .addCustomProperty(TrackingKey.PURCHASE_QUANTITY, quantity)
                 .addCustomProperty(TrackingKey.PURCHASE_PRICE, price)
                 .addCustomProperty(TrackingKey.PURCHASE_BRAND, brand)
+                .addCustomProperty(TrackingKey.PURCHASE_CURRENCY, currency)
                 .build());
     }
 

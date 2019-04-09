@@ -2,13 +2,13 @@ package io.stanwood.framework.analytics.adjust;
 
 
 import android.app.Application;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.adjust.sdk.Adjust;
 import com.adjust.sdk.AdjustConfig;
 import com.adjust.sdk.AdjustEvent;
 
+import androidx.annotation.NonNull;
 import io.stanwood.framework.analytics.generic.TrackerParams;
 import io.stanwood.framework.analytics.generic.TrackingEvent;
 import io.stanwood.framework.analytics.generic.TrackingKey;
@@ -30,7 +30,7 @@ public class AdjustTrackerImpl extends AdjustTracker {
         if (!TextUtils.isEmpty(eventToken)) {
             AdjustEvent event = new AdjustEvent(eventToken);
             if (TrackingEvent.PURCHASE.equalsIgnoreCase(params.getEventName())) {
-                event.setRevenue((double) params.getCustomPropertys().get(TrackingKey.PURCHASE_PRICE), "EUR");
+                event.setRevenue((double) params.getCustomPropertys().get(TrackingKey.PURCHASE_PRICE), params.getCustomPropertys().get(TrackingKey.PURCHASE_CURRENCY).toString());
             }
             Adjust.trackEvent(event);
         }
