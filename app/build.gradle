@@ -27,7 +27,7 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:3.5.0'
         //classpath 'io.fabric.tools:gradle:1.25.4'
         classpath 'com.google.firebase:firebase-plugins:1.1.5'
     }
@@ -46,6 +46,6 @@ dependencies {
     debugImplementation project(':adjusttrackingprovider-noop')
     releaseImplementation project(':adjusttrackingprovider')
     implementation "androidx.appcompat:appcompat:$AppCompatVersion"
-    implementation "com.google.firebase:firebase-perf:18.0.1"
-    implementation("com.google.android.gms:play-services-measurement-base:16.0.2")
+    implementation 'com.google.firebase:firebase-perf:19.0.0'
+    implementation('com.google.android.gms:play-services-measurement-base:17.2.0')
 }
