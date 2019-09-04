@@ -11,4 +11,5 @@ public interface TrackingKey {
     String PURCHASE_QUANTITY = "quantity";
     String PURCHASE_PRICE = "price";
     String PURCHASE_BRAND = "brand";
+    String PURCHASE_CURRENCY = "currency";
 }
