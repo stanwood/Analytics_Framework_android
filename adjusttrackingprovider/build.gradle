@@ -15,7 +15,7 @@ dependencies {
     implementation project(':core')
     implementation "androidx.annotation:annotation:$AnnotationVersion"
     implementation "com.google.android.gms:play-services-analytics:$PlayServicesAnalyticsVersion"
-    implementation 'com.adjust.sdk:adjust-android:4.17.0'
+    implementation 'com.adjust.sdk:adjust-android:4.18.1'
     implementation 'com.android.installreferrer:installreferrer:1.0'
     api project(':adjusttrackingprovider-shared')
 }

@@ -13,6 +13,6 @@ android {
 dependencies {
     implementation project(':core')
     implementation "androidx.annotation:annotation:$AnnotationVersion"
-    implementation "com.google.firebase:firebase-core:16.0.7"
+    implementation 'com.google.firebase:firebase-core:17.2.0'
     api project(':firebasetrackingprovider-shared')
 }

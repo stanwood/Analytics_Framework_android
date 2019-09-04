@@ -2,13 +2,13 @@
 
 buildscript {
 
-    ext.AnnotationVersion = '1.0.0'
+    ext.AnnotationVersion = '1.1.0'
     ext.FragmentVersion = '1.0.0'
     ext.AppCompatVersion = '1.0.2'
     ext.MinSdkVersion = 16
     ext.TargetSdkVersion = 28
     ext.CompileSdkVersion = 28
-    ext.PlayServicesAnalyticsVersion = '16.0.7'
+    ext.PlayServicesAnalyticsVersion = '17.0.0'
     ext.FrameworkVersion = '1.4.1'
 
     repositories {
@@ -16,7 +16,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:3.5.0'
     }
 }
 

@@ -14,6 +14,6 @@ android {
 dependencies {
     implementation project(':core')
     implementation "androidx.annotation:annotation:$AnnotationVersion"
-    api 'com.bugfender.sdk:android:1.0'
+    api 'com.bugfender.sdk:android:1.1.9'
     api project(':bugfendertrackingprovider-shared')
 }
