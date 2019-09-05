@@ -1,7 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-group = 'com.github.stanwood.Analytics_Framework_android'
-version = FrameworkVersion
 android {
     compileSdkVersion CompileSdkVersion
 
@@ -16,30 +13,6 @@ android {
 dependencies {
     implementation project(':core')
     implementation "androidx.annotation:annotation:$AnnotationVersion"
-    implementation "com.google.firebase:firebase-core:16.0.7"
+    implementation 'com.google.firebase:firebase-core:17.2.0'
     api project(':firebasetrackingprovider-shared')
-}
-
-// build a jar with source files
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-task javadoc(type: Javadoc) {
-    failOnError  false
-    source = android.sourceSets.main.java.sourceFiles
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    classpath += configurations.compile
-}
-
-// build a jar with javadoc
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives sourcesJar
-    archives javadocJar
 }

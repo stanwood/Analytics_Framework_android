@@ -79,6 +79,7 @@ public class FirebaseTrackerImpl extends FirebaseTracker {
         Bundle bundle = new Bundle();
         if (TrackingEvent.PURCHASE.equalsIgnoreCase(params.getEventName())) {
             bundle.putString(FirebaseAnalytics.Param.VALUE, params.getCustomPropertys().get(TrackingKey.PURCHASE_PRICE).toString());
+            bundle.putString(FirebaseAnalytics.Param.CURRENCY, params.getCustomPropertys().get(TrackingKey.PURCHASE_CURRENCY).toString());
             bundle.putString(FirebaseAnalytics.Param.TRANSACTION_ID, params.getCustomPropertys().get(TrackingKey.PURCHASE_ORDERID).toString());
             return bundle;
         }

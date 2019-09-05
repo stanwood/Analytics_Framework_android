@@ -3,8 +3,6 @@ package io.stanwood.framework.analytics.ga;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresPermission;
 import android.text.TextUtils;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -15,6 +13,8 @@ import com.google.android.gms.analytics.ecommerce.ProductAction;
 
 import java.util.Map;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresPermission;
 import io.stanwood.framework.analytics.generic.TrackerParams;
 import io.stanwood.framework.analytics.generic.TrackingEvent;
 import io.stanwood.framework.analytics.generic.TrackingKey;
@@ -98,6 +98,7 @@ public class GoogleAnalyticsTrackerImpl extends GoogleAnalyticsTracker {
                 .addProduct(product)
                 .setProductAction(productAction);
         tracker.setScreenName("transaction");
+        tracker.set("&cu", params.getCustomPropertys().get(TrackingKey.PURCHASE_CURRENCY).toString());
         tracker.send(builder.build());
     }
 
