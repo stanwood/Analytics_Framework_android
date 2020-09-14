@@ -9,7 +9,7 @@ buildscript {
     ext.TargetSdkVersion = 28
     ext.CompileSdkVersion = 28
     ext.PlayServicesAnalyticsVersion = '17.0.0'
-    ext.FrameworkVersion = '1.4.1'
+    ext.FrameworkVersion = '1.4.2'
 
     repositories {
         google()
