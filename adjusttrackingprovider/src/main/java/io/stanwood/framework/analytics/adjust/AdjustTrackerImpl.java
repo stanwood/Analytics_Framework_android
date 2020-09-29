@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import com.adjust.sdk.Adjust;
 import com.adjust.sdk.AdjustConfig;
 import com.adjust.sdk.AdjustEvent;
+import com.adjust.sdk.LogLevel;
 
 import androidx.annotation.NonNull;
 import io.stanwood.framework.analytics.generic.TrackerParams;
@@ -46,6 +47,7 @@ public class AdjustTrackerImpl extends AdjustTracker {
             isInited = true;
             String environment = isEnabled() ? AdjustConfig.ENVIRONMENT_PRODUCTION : AdjustConfig.ENVIRONMENT_SANDBOX;
             AdjustConfig config = new AdjustConfig(context, appKey, environment);
+            config.setLogLevel(LogLevel.VERBOSE);
             Adjust.onCreate(config);
         } else if (isInited) {
             if (!enabled) {
