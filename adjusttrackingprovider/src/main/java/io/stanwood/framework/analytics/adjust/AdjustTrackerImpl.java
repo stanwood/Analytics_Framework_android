@@ -45,7 +45,7 @@ public class AdjustTrackerImpl extends AdjustTracker {
     protected void enable(boolean enabled) {
         if (enabled && !isInited) {
             isInited = true;
-            String environment = isEnabled() ? AdjustConfig.ENVIRONMENT_PRODUCTION : AdjustConfig.ENVIRONMENT_SANDBOX;
+            String environment = AdjustConfig.ENVIRONMENT_SANDBOX;
             AdjustConfig config = new AdjustConfig(context, appKey, environment);
             config.setLogLevel(LogLevel.VERBOSE);
             Adjust.onCreate(config);
