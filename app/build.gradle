@@ -19,16 +19,20 @@ android {
         debug {
         }
     }
+
+    lintOptions {
+        abortOnError false
+        disable 'GradleDependency', 'GoogleAppIndexingWarning'
+        // , 'IncompatibleIidVersion'
+    }
 }
 buildscript {
     repositories {
         google()
         jcenter()
-        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
-        //classpath 'io.fabric.tools:gradle:1.25.4'
         classpath 'com.google.firebase:firebase-plugins:1.1.5'
     }
 }

@@ -5,13 +5,11 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsCore;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.util.Map;
 
 import androidx.annotation.RequiresPermission;
-import io.fabric.sdk.android.Fabric;
 import io.stanwood.framework.analytics.generic.TrackerParams;
 import io.stanwood.framework.analytics.generic.TrackingKey;
 
@@ -35,9 +33,7 @@ public class FabricTrackerImpl extends FabricTracker {
         // there is no way to disable after crashlytics is once inited
         if (enabled && !isInited) {
             isInited = true;
-            Fabric.with(context, new Crashlytics.Builder()
-                    .core(new CrashlyticsCore.Builder().build())
-                    .build());
+            FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
         }
     }
 
@@ -45,7 +41,7 @@ public class FabricTrackerImpl extends FabricTracker {
     public void track(@NonNull TrackerParams params) {
         String mapped = mapFunc.map(params);
         if (!TextUtils.isEmpty(mapped)) {
-            Crashlytics.log(0, params.getEventName(), mapped);
+            FirebaseCrashlytics.getInstance().log(params.getEventName() + ": " + mapped);
         }
         Map<String, Object> mappedKeys = mapFunc.mapKeys(params);
         if (mappedKeys != null) {
@@ -54,21 +50,21 @@ public class FabricTrackerImpl extends FabricTracker {
                     continue;
                 }
                 if (entry.getKey().equals(TrackingKey.USER_ID)) {
-                    Crashlytics.setUserIdentifier((String) entry.getValue());
+                    FirebaseCrashlytics.getInstance().setUserId((String) entry.getValue());
                 } else if (entry.getKey().equals(TrackingKey.USER_EMAIL)) {
-                    Crashlytics.setUserEmail((String) entry.getValue());
+                    FirebaseCrashlytics.getInstance().setCustomKey(TrackingKey.USER_EMAIL, (String) entry.getValue());
                 } else if (entry.getValue() instanceof String) {
-                    Crashlytics.setString(entry.getKey(), (String) entry.getValue());
+                    FirebaseCrashlytics.getInstance().setCustomKey(entry.getKey(), (String) entry.getValue());
                 } else if (entry.getValue() instanceof Integer) {
-                    Crashlytics.setInt(entry.getKey(), (Integer) entry.getValue());
+                    FirebaseCrashlytics.getInstance().setCustomKey(entry.getKey(), (Integer) entry.getValue());
                 } else if (entry.getValue() instanceof Boolean) {
-                    Crashlytics.setBool(entry.getKey(), (Boolean) entry.getValue());
+                    FirebaseCrashlytics.getInstance().setCustomKey(entry.getKey(), (Boolean) entry.getValue());
                 } else if (entry.getValue() instanceof Long) {
-                    Crashlytics.setLong(entry.getKey(), (Long) entry.getValue());
+                    FirebaseCrashlytics.getInstance().setCustomKey(entry.getKey(), (Long) entry.getValue());
                 } else if (entry.getValue() instanceof Float) {
-                    Crashlytics.setFloat(entry.getKey(), (Float) entry.getValue());
+                    FirebaseCrashlytics.getInstance().setCustomKey(entry.getKey(), (Float) entry.getValue());
                 } else if (entry.getValue() instanceof Double) {
-                    Crashlytics.setDouble(entry.getKey(), (Double) entry.getValue());
+                    FirebaseCrashlytics.getInstance().setCustomKey(entry.getKey(), (Double) entry.getValue());
                 }
             }
         }
@@ -76,7 +72,7 @@ public class FabricTrackerImpl extends FabricTracker {
 
     @Override
     public void track(@NonNull Throwable throwable) {
-        Crashlytics.logException(throwable);
+        FirebaseCrashlytics.getInstance().recordException(throwable);
     }
 
     public static class Builder extends FabricTracker.Builder {
