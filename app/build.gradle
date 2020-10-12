@@ -21,7 +21,7 @@ android {
     }
 
     lintOptions {
-        disable 'GradleDependency', 'GoogleAppIndexingWarning', 'IncompatibleIidVersion'
+        disable 'GradleDependency', 'GoogleAppIndexingWarning'
     }
 }
 buildscript {
