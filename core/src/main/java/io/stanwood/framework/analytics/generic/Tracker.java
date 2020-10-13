@@ -59,7 +59,7 @@ public abstract class Tracker {
 
     public abstract static class Builder<T extends Builder<T>> {
         protected boolean exceptionTrackingEnabled = false;
-        private Application context;
+        public final Application context;
 
         protected Builder(Application context) {
             this.context = context;
