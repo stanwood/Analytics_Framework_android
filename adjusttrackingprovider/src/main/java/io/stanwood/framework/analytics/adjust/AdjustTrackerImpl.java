@@ -1,7 +1,9 @@
 package io.stanwood.framework.analytics.adjust;
 
 
+import android.app.Activity;
 import android.app.Application;
+import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.adjust.sdk.Adjust;
@@ -18,6 +20,8 @@ public class AdjustTrackerImpl extends AdjustTracker {
 
     protected AdjustTrackerImpl(AdjustTracker.Builder builder) {
         super(builder);
+
+        builder.context.registerActivityLifecycleCallbacks(new AdjustLifecycleCallbacks());
     }
 
     public static Builder builder(Application context, String appKey) {
@@ -62,6 +66,43 @@ public class AdjustTrackerImpl extends AdjustTracker {
 
         public AdjustTrackerImpl build() {
             return new AdjustTrackerImpl(this);
+        }
+    }
+
+    private static final class AdjustLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
+        @Override
+        public void onActivityResumed(Activity activity) {
+            Adjust.onResume();
+        }
+
+        @Override
+        public void onActivityPaused(Activity activity) {
+            Adjust.onPause();
+        }
+
+        @Override
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+            // no-op
+        }
+
+        @Override
+        public void onActivityStarted(Activity activity) {
+            // no-op
+        }
+
+        @Override
+        public void onActivityStopped(Activity activity) {
+            // no-op
+        }
+
+        @Override
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+            // no-op
+        }
+
+        @Override
+        public void onActivityDestroyed(Activity activity) {
+            // no-op
         }
     }
 }
