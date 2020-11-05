@@ -71,16 +71,7 @@ public class AdjustTrackerImpl extends AdjustTracker {
         }
     }
 
-    private static class AdjustLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
-        @Override
-        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        }
-
-        @Override
-        public void onActivityStarted(Activity activity) {
-
-        }
-
+    private static final class AdjustLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
         @Override
         public void onActivityResumed(Activity activity) {
             Adjust.onResume();
@@ -92,18 +83,28 @@ public class AdjustTrackerImpl extends AdjustTracker {
         }
 
         @Override
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+            // no-op
+        }
+
+        @Override
+        public void onActivityStarted(Activity activity) {
+            // no-op
+        }
+
+        @Override
         public void onActivityStopped(Activity activity) {
+            // no-op
         }
 
         @Override
         public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
+            // no-op
         }
 
         @Override
         public void onActivityDestroyed(Activity activity) {
-
+            // no-op
         }
     }
-
 }
